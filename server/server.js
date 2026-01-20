@@ -27,10 +27,16 @@ const allowedOrigins = new Set([
   "http://127.0.0.1:5173",
 ]);
 
+const isDev = process.env.NODE_ENV !== "production";
+const isLocalhostDevOrigin = (origin) =>
+  typeof origin === "string" && /^https?:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin);
+
 const corsOptions = {
   origin: (origin, cb) => {
     if (!origin) return cb(null, true);
-    return cb(null, allowedOrigins.has(origin));
+    if (allowedOrigins.has(origin)) return cb(null, true);
+    if (isDev && isLocalhostDevOrigin(origin)) return cb(null, true);
+    return cb(null, false);
   },
   credentials: true,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
