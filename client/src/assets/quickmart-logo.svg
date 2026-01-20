@@ -1,0 +1,56 @@
+<!-- Save this as quickmart-logo.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 150" width="600" height="150" role="img" aria-labelledby="title desc">
+  <title id="title">Quickmart logo</title>
+  <desc id="desc">A green shopping-cart mark with the word Quickmart in a modern sans-serif wordmark</desc>
+
+  <!-- Gradient -->
+  <defs>
+    <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#16a34a"/>
+      <stop offset="1" stop-color="#059669"/>
+    </linearGradient>
+
+    <!-- soft drop shadow for icon -->
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feOffset dx="0" dy="6" result="off"/>
+      <feGaussianBlur in="off" stdDeviation="6" result="blur"/>
+      <feColorMatrix in="blur" type="matrix"
+        values="0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0.15" result="shadow"/>
+      <feBlend in="SourceGraphic" in2="shadow" mode="normal"/>
+    </filter>
+  </defs>
+
+  <!-- Background optional rectangle (transparent) -->
+  <rect width="100%" height="100%" fill="none"/>
+
+  <!-- Cart + lightning (quick) mark -->
+  <g transform="translate(30,18)" filter="url(#shadow)">
+    <!-- cart body -->
+    <path d="M84 20 H26 L18 6 H6" fill="none" stroke="url(#g1)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- cart basket -->
+    <path d="M26 20 L48 88 H154 L182 34 H70" fill="none" stroke="url(#g1)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- wheels -->
+    <circle cx="70" cy="110" r="12" fill="#064e3b"/>
+    <circle cx="150" cy="110" r="12" fill="#064e3b"/>
+    <!-- lightning / speed mark inside basket -->
+    <path d="M110 40 L90 70 L120 70 L100 100" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- subtle cart fill -->
+    <path d="M48 28 L158 28 L172 40 L142 96 L58 96 Z" fill="url(#g1)" opacity="0.12"/>
+  </g>
+
+  <!-- Wordmark: Quickmart -->
+  <g transform="translate(240,98)">
+    <text x="0" y="0" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+          font-weight="700" font-size="48" fill="#064e3b">Quick</text>
+    <text x="150" y="0" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+          font-weight="400" font-size="48" fill="#16a34a">mart</text>
+  </g>
+
+  <!-- small tagline (optional) -->
+  <text x="240" y="130" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="#065f46" opacity="0.85">
+    Fast groceries • Smart cart • Better prices
+  </text>
+</svg>
