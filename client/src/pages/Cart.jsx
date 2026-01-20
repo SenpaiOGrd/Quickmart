@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { dummyAddress } from "../assets/assets";
 import {assets} from "../assets/assets";
-import { useAppContext } from "../context/appContext";
+import { useAppContext } from "../context/AppContext";
 
 const Cart = () => {
     const {products, currency ,cartItems, removeFromCart, getCartCount,updateCartItem,navigate,getCartAmount} = useAppContext();
