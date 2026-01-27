@@ -6,6 +6,20 @@ export const addProduct = async (req,res) => {
     try{
         let  productData = JSON.parse(req.body.productData);
 
+        // Accept both `offerPrice` (client) and legacy `offerprice` (schema/db key)
+        if (productData?.offerPrice == null && productData?.offerprice != null) {
+            productData.offerPrice = productData.offerprice;
+        }
+
+        // Ensure required schema key is present regardless of alias behavior
+        if (productData?.offerprice == null && productData?.offerPrice != null) {
+            productData.offerprice = productData.offerPrice;
+        }
+
+        // Coerce numeric values (form-data often sends strings)
+        if (productData?.price != null) productData.price = Number(productData.price);
+        if (productData?.offerPrice != null) productData.offerPrice = Number(productData.offerPrice);
+
         const images = req.files;
 
         let imagesUrl = await  Promise.all(
@@ -39,7 +53,7 @@ export const productList = async (req,res) => {
 export const productById = async (req,res) => { 
     try {
         const {id} = req.body;
-        const products = await Product.findById(id);
+        const product = await Product.findById(id);
         res.json({success:true, product});
     }catch(error){
         console.log(error.message);

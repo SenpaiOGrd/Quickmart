@@ -108,3 +108,22 @@ export const logout = async (req, res) => {
         return res.json({success:false, message: error.message});
     }
 }
+
+// Update user cart items : /api/user/update
+
+export const updateUserCart = async (req, res) => {
+    try{
+        const userId = req.userId;
+        const { cartItems } = req.body;
+
+        if (cartItems === undefined || cartItems === null || typeof cartItems !== 'object') {
+            return res.json({ success: false, message: 'Invalid cartItems' });
+        }
+
+        await User.findByIdAndUpdate(userId, { cartItems }, { new: true });
+        return res.json({ success: true, message: 'Cart updated' });
+    }catch(error){
+        console.log(error.message);
+        return res.json({ success: false, message: error.message });
+    }
+}
