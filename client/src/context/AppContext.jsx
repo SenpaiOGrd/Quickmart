@@ -7,13 +7,26 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL ;
 
-// If seller auth cookie is blocked (common on cross-domain Vercel), fall back to Bearer token.
+// If cookies are blocked (common on cross-domain Vercel), fall back to Bearer tokens.
+// Route-aware to avoid mixing seller and user tokens.
 axios.interceptors.request.use((config) => {
     try{
-        const sellerToken = localStorage.getItem('sellerToken');
-        if(sellerToken){
+        const rawUrl = typeof config.url === 'string' ? config.url : '';
+        const urlPath = rawUrl.startsWith('http')
+            ? new URL(rawUrl).pathname
+            : rawUrl;
+
+        const isSellerRequest =
+            urlPath.startsWith('/api/seller') ||
+            urlPath.startsWith('/api/product') ||
+            urlPath.startsWith('/api/order/seller');
+
+        const tokenKey = isSellerRequest ? 'sellerToken' : 'userToken';
+        const token = localStorage.getItem(tokenKey);
+
+        if(token){
             config.headers = config.headers || {};
-            config.headers.Authorization = `Bearer ${sellerToken}`;
+            config.headers.Authorization = `Bearer ${token}`;
         }
     }catch{
         // ignore

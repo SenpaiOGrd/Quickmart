@@ -17,13 +17,18 @@ const Navbar = () => {
             const {data} = await axios.get("/api/user/logout");
             if(data.success){
                 toast.success(data.message);
+                try { localStorage.removeItem('userToken'); } catch {}
                 setUser(null);
                 navigate('/');
             }else{
                 toast.error(data.message);
             }
         }catch(error){
-            toast.error(error.message);
+            const msg =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Request failed";
+            toast.error(msg);
         }
        
     } 

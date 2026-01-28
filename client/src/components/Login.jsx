@@ -19,6 +19,9 @@ const Login = () => {
 
             const {data}= await axios.post(`/api/user/${state}`, {name, email, password});
             if(data.success){
+                if (data.token) {
+                    localStorage.setItem('userToken', data.token);
+                }
                 navigate("/");
                 setUser(data.user);
                 setShowUserLogin(false);
@@ -30,7 +33,11 @@ const Login = () => {
 
             
         }catch(error){
-            toast.error(error.message);
+            const msg =
+                error?.response?.data?.message ||
+                error?.message ||
+                "Request failed";
+            toast.error(msg);
         }
     }
 

@@ -30,7 +30,7 @@ export const register= async (req,res)=>{
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days cookie expiry
         })
 
-        return res.json({success:true , user: {email: user.email,name: user.name}})
+        return res.json({success:true , user: {email: user.email,name: user.name}, token})
 
 
     }catch(error){
@@ -70,7 +70,7 @@ export const login= async (req,res)=>{
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days cookie expiry
         })
 
-        return res.json({success:true , user: {email: user.email,name: user.name}})
+        return res.json({success:true , user: {email: user.email,name: user.name}, token})
 
     }catch(error){
         console.log(error.message);
