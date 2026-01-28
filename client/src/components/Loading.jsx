@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 
 const Loading = () => {
 
-    const {navigate, axios} = useAppContext();
+    const {navigate, axios, setCartItems} = useAppContext();
     let {search} = useLocation();
     const query = new URLSearchParams(search);
     const nextUrl = query.get('next');
@@ -17,7 +17,11 @@ const Loading = () => {
         const run = async () => {
             try{
                 if(sessionId){
-                    await axios.get(`/api/order/verify-stripe?session_id=${encodeURIComponent(sessionId)}`);
+                    const { data } = await axios.get(`/api/order/verify-stripe?session_id=${encodeURIComponent(sessionId)}`);
+                    if(data?.success){
+                        setCartItems({});
+                        await axios.post('/api/cart/update', { cartItems: {} });
+                    }
                 }
             }finally{
                 // keep a small delay so the spinner isn't a flash
@@ -26,7 +30,7 @@ const Loading = () => {
         };
 
         run();
-    }, [nextUrl, sessionId, navigate, axios]);
+    }, [nextUrl, sessionId, navigate, axios, setCartItems]);
 
 
   return (
