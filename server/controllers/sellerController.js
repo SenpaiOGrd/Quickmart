@@ -17,7 +17,7 @@ export const sellerLogin= async (req,res)=>{
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict', //CSRF protection 
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days cookie expiry
         });
-        return  res.json({success:true, message: "Logged In"});
+        return  res.json({success:true, message: "Logged In", token});
     }else{
         return res.json({success:false, message: "Invalid Credentials"});
     }

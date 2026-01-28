@@ -20,6 +20,7 @@ const SellerLayout = () => {
             const {data} = await axios.get("/api/seller/logout");
             if(data.success){
                 toast.success(data.message);
+                try{ localStorage.removeItem('sellerToken'); }catch{}
                 navigate("/");
             }else{
                 toast.error(data.message);

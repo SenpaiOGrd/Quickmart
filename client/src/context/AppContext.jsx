@@ -7,6 +7,20 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL ;
 
+// If seller auth cookie is blocked (common on cross-domain Vercel), fall back to Bearer token.
+axios.interceptors.request.use((config) => {
+    try{
+        const sellerToken = localStorage.getItem('sellerToken');
+        if(sellerToken){
+            config.headers = config.headers || {};
+            config.headers.Authorization = `Bearer ${sellerToken}`;
+        }
+    }catch{
+        // ignore
+    }
+    return config;
+});
+
 export const AppContext = createContext();
 
 export const AppContextProvider = ({children}) => {
