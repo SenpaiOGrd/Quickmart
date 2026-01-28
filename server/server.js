@@ -27,6 +27,7 @@ const allowedOrigins = new Set([
   "http://localhost:5173",
   "http://127.0.0.1:5173",
   "https://quickmart-client.vercel.app",
+  process.env.FRONTEND_URL,
 ]);
 
 
@@ -35,12 +36,14 @@ app.post('/stripe', express.raw({ type: 'application/json' }), stripeWebhooks);
 const isDev = process.env.NODE_ENV !== "production";
 const isLocalhostDevOrigin = (origin) =>
   typeof origin === "string" && /^https?:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin);
+const isVercelOrigin = (origin) => typeof origin === "string" && origin.endsWith('.vercel.app');
 
 const corsOptions = {
   origin: (origin, cb) => {
     if (!origin) return cb(null, true);
     if (allowedOrigins.has(origin)) return cb(null, true);
     if (isDev && isLocalhostDevOrigin(origin)) return cb(null, true);
+    if (isVercelOrigin(origin)) return cb(null, true);
     return cb(null, false);
   },
   credentials: true,
